@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AngularJS Practical</title>
+		<style>
+			[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+				display: none !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper" ng-app="demo" ng-cloak>
+			<autocomplete></autocomplete>
+			<section>
+				<form method="post" action="fill">
+					<input name="firstname" type="text" required>
+					<input name="lastname" type="text" required maxlength=4 />
+					<input type="submit" value="Submit" />
+				</form>
+				<span id="clickMe">Click</span>
+			</section>
+		</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script>
+		angular.module("demo",[]);
+		var options = {
+			appModule : "demo",
+			dataPath : 'data/countries.json',
+			labelText : 'Country Name',
+			displayJSONAttribute : 'name'
+		}
+		var app = angular.module(options.appModule,[]);
+		
+		app.directive('autocomplete',function($http){
+				return {
+					restrict : 'E',
+					replace : false,
+					template : '<label for="autocomplete">'+options.labelText+'&nbsp;&nbsp;</label><input type="text" id="autocomplete" list="autoComplteList"/><datalist id="autoComplteList"><option value="{{opt.'+options.displayJSONAttribute+'}}" ng-repeat="opt in option" /></datalist><span class="loading" ng-bind="status"></span>',
+					compile: function(tElem,attrs) {
+					  return function(scope,elem,attrs) {
+						$http.get(options.dataPath).success(function(response){
+							scope.option = response;
+						}).error(function(response, status, headers, config){
+							scope.status = status;
+						});;
+					  };
+					}
+				}
+		});
+	</script>
+	</body>
+</html>
