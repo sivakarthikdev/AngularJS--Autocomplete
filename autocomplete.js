@@ -9,10 +9,8 @@ angular.module('AutoComplete',[]).directive('autocomplete',function($http,$compi
 			},
 			compile: function(tElem,attrs) {
 				return function(scope,elem,attrs) {
-					
 					$http.get(attrs.datapath).success(function(response){
 						scope.option = response;
-						
 					}).error(function(response, status, headers, config){
 						scope.status = status;
 					});
