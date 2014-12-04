@@ -4,15 +4,15 @@ angular.module('AutoComplete',[]).directive('autocomplete',function($http,$compi
 			//scope : {option : '@option'},
 			replace : false,
 			template : function(element, attr){
-				var template = '<label for="autocomplete">'+attr.labeltext+'&nbsp;&nbsp;</label><input type="text" name="'+attr.paramname+'" id="autocomplete" list="autoComplteList'+attr.paramname+'"/><datalist id="autoComplteList'+attr.paramname+'"><option value="{{opt.'+attr.displayjsonattribute+'}}" ng-repeat="opt in option" /></datalist><span class="loading" ng-bind="status"></span>';
+				var template = '<label for="autocomplete">'+attr.labeltext+'&nbsp;&nbsp;</label><input type="text" name="'+attr.paramname+'" id="autocomplete" list="autoComplteList"/><datalist id="autoComplteList"><option value="{{opt.'+attr.displayjsonattribute+'}}" ng-repeat="opt in option.'+attr.scopes+'" /></datalist><span class="loading" ng-bind="status"></span>';
 				return template;
 			},
 			compile: function(tElem,attrs) {
 				return function(scope,elem,attrs) {
-					
+					scope.option = {};
 					$http.get(attrs.datapath).success(function(response){
-						scope.option = response;
-						
+						scope.option[attrs.scopes] = response;
+						console.log(scope.option[attrs.scopes])
 					}).error(function(response, status, headers, config){
 						scope.status = status;
 					});

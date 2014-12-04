@@ -6,20 +6,20 @@
 	<body>
 		<section ng-app="autoCompleteApp">
 			<div id="wrapper">
-				<autocomplete></autocomplete>
+				<form>
+					<autocomplete data-dataPath="data/countries.json" data-labelText="Country Name" data-displayJSONAttribute="name" data-paramName="country-name">
+					</autocomplete>
+					<autocomplete data-dataPath="data/countries.json" data-labelText="State Name" data-displayJSONAttribute="code" data-paramName="state-name">
+					</autocomplete>
+				</form>
 			</div>
+			
 		</section>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+		<!--script src="http://code.jquery.com/jquery-1.11.0.min.js"></script-->
 		<script src="autocomplete.js"></script>
 		<script>
-		var options = {
-			appModule : "autoCompleteApp",
-			dataPath : 'data/countries.json',
-			labelText : 'Country Name',
-			displayJSONAttribute : 'name',
-			paramName : 'country-name'
-		}
-		angular.module('autoCompleteApp',['AutoComplete']);
+			angular.module('autoCompleteApp',['AutoComplete']);
 		</script>
 	</body>
 </html>
